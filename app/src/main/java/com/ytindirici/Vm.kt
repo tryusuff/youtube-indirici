@@ -78,7 +78,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         req.addOption("--no-mtime")
         req.addOption("--windows-filenames")
         req.addOption("--embed-metadata")
-        req.addOption("--no-update") // <-- Sürüm uyarı hatasını engelleyen parametre eklendi
+        req.addOption("--no-update")
+        // YouTube engellerini aşmak için Android istemci parametresi eklendi:
+        req.addOption("--extractor-args", "youtube:player_client=android")
         
         if (audio) {
             req.addOption("-f", "bestaudio/best")
