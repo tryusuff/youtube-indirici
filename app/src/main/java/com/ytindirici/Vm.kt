@@ -65,7 +65,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 tmp.deleteRecursively()
                 progress = if (cancelled) progress else 1f
                 status = if (cancelled) "İptal edildi." else "Tamamlandı ✔"
-                log("$n dosya telefonun İndirilenler (Download) klasörüne kaydedildi.")
+                log("$n dosya İndirilenler / YTIndirici klasörüne kaydedildi.")
                 running = false
             }
         }
@@ -135,8 +135,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             val isAudio = ext in audioExt
             if (!isAudio && ext !in videoExt) return@forEach
             val sub = f.parentFile?.relativeTo(root)?.path?.replace('\\', '/')?.trim('/') ?: ""
+            
+            // İndirilenler klasörünün içinde "YTIndirici" adında özel klasör oluşturur
             val base = Environment.DIRECTORY_DOWNLOADS
-            val rel = listOf(base, sub).filter { it.isNotEmpty() }.joinToString("/")
+            val rel = listOf(base, "YTIndirici", sub).filter { it.isNotEmpty() }.joinToString("/")
+            
             val collection = MediaStore.Downloads.EXTERNAL_CONTENT_URI
             val values = ContentValues().apply {
                 put(MediaStore.MediaColumns.DISPLAY_NAME, f.name)
