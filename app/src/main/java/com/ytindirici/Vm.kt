@@ -65,7 +65,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 tmp.deleteRecursively()
                 progress = if (cancelled) progress else 1f
                 status = if (cancelled) "İptal edildi." else "Tamamlandı ✔"
-                log("$n dosya kaydedildi (Müzik / Filmler → YT Indirici klasörü).")
+                log("$n dosya telefonun İndirilenler (Download) klasörüne kaydedildi.")
                 running = false
             }
         }
@@ -135,10 +135,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             val isAudio = ext in audioExt
             if (!isAudio && ext !in videoExt) return@forEach
             val sub = f.parentFile?.relativeTo(root)?.path?.replace('\\', '/')?.trim('/') ?: ""
-            val base = if (isAudio) Environment.DIRECTORY_MUSIC else Environment.DIRECTORY_MOVIES
-            val rel = listOf(base, "YT Indirici", sub).filter { it.isNotEmpty() }.joinToString("/")
-            val collection = if (isAudio) MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-            else MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+            val base = Environment.DIRECTORY_DOWNLOADS
+            val rel = listOf(base, sub).filter { it.isNotEmpty() }.joinToString("/")
+            val collection = MediaStore.Downloads.EXTERNAL_CONTENT_URI
             val values = ContentValues().apply {
                 put(MediaStore.MediaColumns.DISPLAY_NAME, f.name)
                 put(MediaStore.MediaColumns.MIME_TYPE, mimes[ext] ?: "application/octet-stream")
