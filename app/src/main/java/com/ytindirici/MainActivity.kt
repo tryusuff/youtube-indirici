@@ -56,7 +56,7 @@ fun Screen(vm: MainViewModel = viewModel()) {
             Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(20.dp),
             verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
-            Text("YT İndirici", fontSize = 28.sp, fontWeight = FontWeight.Bold)
+            Text("YouTube Dönüştürücü", fontSize = 26.sp, fontWeight = FontWeight.Bold)
             Text("YouTube ve YouTube Music playlist, şarkı ve videolarını indir", color = Muted, fontSize = 13.sp)
 
             // Linkler
