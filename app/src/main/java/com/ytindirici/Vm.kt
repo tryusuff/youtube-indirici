@@ -136,9 +136,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             if (!isAudio && ext !in videoExt) return@forEach
             val sub = f.parentFile?.relativeTo(root)?.path?.replace('\\', '/')?.trim('/') ?: ""
             
-            // İndirilenler klasörünün içinde "YTIndirici" adında özel klasör oluşturur
-            val base = Environment.DIRECTORY_DOWNLOADS
-            val rel = listOf(base, "YTIndirici", sub).filter { it.isNotEmpty() }.joinToString("/")
+            // MediaStore.Downloads zaten Downloads klasörüdür, doğrudan YTIndirici alt klasörünü açıyoruz
+            val rel = listOf("YTIndirici", sub).filter { it.isNotEmpty() }.joinToString("/")
             
             val collection = MediaStore.Downloads.EXTERNAL_CONTENT_URI
             val values = ContentValues().apply {
@@ -155,7 +154,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 resolver.update(uri, values, null, null)
                 count++
             } catch (e: Exception) {
-                log("✖ Kaydedilemedi: ${f.name}")
+                log("✖ Kaydedilemedi: ${e.message}")
             }
         }
         return count
