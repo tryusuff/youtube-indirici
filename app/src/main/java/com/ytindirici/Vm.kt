@@ -78,6 +78,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         req.addOption("--no-mtime")
         req.addOption("--windows-filenames")
         req.addOption("--embed-metadata")
+        req.addOption("--no-update") // <-- Sürüm uyarı hatasını engelleyen parametre eklendi
+        
         if (audio) {
             req.addOption("-f", "bestaudio/best")
             req.addOption("-x")
@@ -136,7 +138,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             if (!isAudio && ext !in videoExt) return@forEach
             val sub = f.parentFile?.relativeTo(root)?.path?.replace('\\', '/')?.trim('/') ?: ""
             
-            // MediaStore.Downloads zaten Downloads klasörüdür, doğrudan YTIndirici alt klasörünü açıyoruz
             val rel = listOf("YTIndirici", sub).filter { it.isNotEmpty() }.joinToString("/")
             
             val collection = MediaStore.Downloads.EXTERNAL_CONTENT_URI
